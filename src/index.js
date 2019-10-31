@@ -1,0 +1,70 @@
+import Redis from 'ioredis'
+
+import createLogger from '@rplan/logger'
+import config from '@rplan/config'
+
+let redisClient
+
+const logger = createLogger('redis-client')
+
+const createNewRedisClient = () => {
+  let client
+
+  if (config.get('redis:sentinel:enabled')) {
+    client = new Redis({
+      sentinels: config.get('redis:sentinel:instances'),
+      name: config.get('redis:sentinel:masterGroupName'),
+      maxRetriesPerRequest: config.get('redis:maxRetries'),
+      password: config.get('redis:password'),
+    })
+  } else {
+    client = new Redis({
+      host: config.get('redis:host'),
+      port: config.get('redis:port'),
+      maxRetriesPerRequest: config.get('redis:maxRetries'),
+      password: config.get('redis:password'),
+    })
+  }
+
+  client
+    .on('connect', () => {
+      logger.info('Connecting to Redis')
+    })
+    .on('ready', () => {
+      logger.info('Successfully connected to Redis')
+    })
+    .on('error', (err) => {
+      logger.error({ err }, 'Error while connecting to redis')
+    })
+    .on('close', () => {
+      logger.info('Connection to Redis was closed')
+    })
+    .on('reconnecting', () => {
+      logger.info('Redis is trying to reconnect')
+    })
+
+  return client
+}
+
+/*
+* We want to re-use a single redis client in production to not reconnect all the time
+*/
+const getRedisClient = () => {
+  if (!redisClient) redisClient = createNewRedisClient()
+
+  return redisClient
+}
+
+const disconnectRedisClient = () => {
+  if (redisClient) {
+    redisClient.disconnect()
+    redisClient = null
+    logger.info('redis client has been disconnected')
+  }
+}
+
+module.exports = {
+  createNewRedisClient,
+  getRedisClient,
+  disconnectRedisClient,
+}
