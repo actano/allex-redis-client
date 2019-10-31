@@ -7,7 +7,7 @@ let redisClient
 
 const logger = createLogger('redis-client')
 
-const createNewRedisClient = () => {
+export const createNewRedisClient = () => {
   let client
 
   if (config.get('redis:sentinel:enabled')) {
@@ -49,22 +49,16 @@ const createNewRedisClient = () => {
 /*
 * We want to re-use a single redis client in production to not reconnect all the time
 */
-const getRedisClient = () => {
+export const getRedisClient = () => {
   if (!redisClient) redisClient = createNewRedisClient()
 
   return redisClient
 }
 
-const disconnectRedisClient = () => {
+export const disconnectRedisClient = () => {
   if (redisClient) {
     redisClient.disconnect()
     redisClient = null
     logger.info('redis client has been disconnected')
   }
-}
-
-module.exports = {
-  createNewRedisClient,
-  getRedisClient,
-  disconnectRedisClient,
 }
