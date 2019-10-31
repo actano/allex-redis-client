@@ -13,7 +13,7 @@ redis:
   sentinel:
     enabled: true
     masterGroupName: name
-    maxRetries: maxRetriesPerRequest
+    maxRetries: 10
     password: password
     instances: 
       - instance1
@@ -26,6 +26,6 @@ When using redis directly
 redis:
   host: hostname
   port: portNumber
-  maxRetries: maxRetriesPerRequest
+  maxRetries: 10
   password: password
 ~~~
