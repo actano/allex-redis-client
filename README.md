@@ -25,7 +25,7 @@ When using redis directly
 ~~~
 redis:
   host: hostname
-  port: portNumber
+  port: 80
   maxRetries: 10
   password: password
 ~~~
