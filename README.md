@@ -1,2 +1,31 @@
-# allex-redis-client
- 🏞 Redis Client for Allex
+# allex-redis-client 
+
+This package contains a redis client that is a wrapper around (ioredis)[https://github.com/luin/ioredis]
+
+It supports both a direct redis connection and a connection through sentinel.
+We use (@rplan/config)[https://www.npmjs.com/package/@rplan/config] to configure access to redis.
+
+You need the following properties in your config
+
+When using sentinel
+~~~
+reds:
+  sentinel:
+    enabled: true
+    masterGroupName: name
+    maxRetries: maxRetriesPerRequest
+    password: password
+    instances: 
+      - instance1
+      - instance2
+~~~
+
+When using redis directly
+
+~~~
+redis:
+  host: hostname
+  port: portNumber
+  maxRetries: maxRetriesPerRequest
+  password: password
+~~~
