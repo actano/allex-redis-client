@@ -41,6 +41,6 @@
   },
   "scripts": {
     "build": "babel src -d lib",
-    "lint": "eslint src"
+    "lint": "eslint ."
   }
 }
