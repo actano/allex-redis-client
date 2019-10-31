@@ -21,11 +21,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@rplan/config": "^1.2.0",
-    "@rplan/logger": "^1.1.0",
     "ioredis": "^4.14.1"
   },
+  "peerDependencies": {
+    "@rplan/config": "^1.2.0",
+    "@rplan/logger": "^1.1.0"
+  },
   "devDependencies": {
+    "@rplan/config": "^1.2.0",
+    "@rplan/logger": "^1.1.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.3",
     "babel-plugin-add-module-exports": "^1.0.2",
