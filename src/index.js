@@ -1,8 +1,10 @@
 import Redis from 'ioredis'
+import Bluebird from 'bluebird'
 
 import createLogger from '@rplan/logger'
 import config from '@rplan/config'
 
+Redis.Promise = Bluebird
 let redisClient
 
 const logger = createLogger('redis-client')

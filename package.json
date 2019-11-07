@@ -21,6 +21,7 @@
     "access": "public"
   },
   "dependencies": {
+    "bluebird": "^3.7.1",
     "ioredis": "^4.14.1"
   },
   "peerDependencies": {
