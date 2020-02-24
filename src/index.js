@@ -6,6 +6,7 @@ import config from '@rplan/config'
 
 Redis.Promise = Bluebird
 let redisClient
+let isShutdown = false
 
 const logger = createLogger('redis-client')
 
@@ -52,6 +53,10 @@ export const createNewRedisClient = () => {
 * We want to re-use a single redis client in production to not reconnect all the time
 */
 export const getRedisClient = () => {
+  if (isShutdown) {
+    throw new Error('redis client has been shut down')
+  }
+
   if (!redisClient) redisClient = createNewRedisClient()
 
   return redisClient
@@ -63,4 +68,9 @@ export const disconnectRedisClient = () => {
     redisClient = null
     logger.info('redis client has been disconnected')
   }
+}
+
+export const shutdownRedisClient = () => {
+  isShutdown = true
+  disconnectRedisClient()
 }
