@@ -4,6 +4,8 @@ import Bluebird from 'bluebird'
 import createLogger from '@rplan/logger'
 import config from '@rplan/config'
 
+import { createRedisClientMock } from './redis-client-mock'
+
 Redis.Promise = Bluebird
 let redisClient
 let isShutdown = false
@@ -58,6 +60,16 @@ export const getRedisClient = () => {
   }
 
   if (!redisClient) redisClient = createNewRedisClient()
+
+  return redisClient
+}
+
+export const getRedisClientMock = () => {
+  if (isShutdown) {
+    throw new Error('redis client has been shut down')
+  }
+
+  if (!redisClient) redisClient = createRedisClientMock()
 
   return redisClient
 }
