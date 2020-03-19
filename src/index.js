@@ -86,3 +86,7 @@ export const shutdownRedisClient = () => {
   isShutdown = true
   disconnectRedisClient()
 }
+
+export const resetShutdownForTests = () => {
+  isShutdown = false
+}
