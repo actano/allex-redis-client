@@ -2,8 +2,6 @@ root: true
 extends:
   - actano-base
 
-parser: babel-eslint
-
 rules:
   import/no-extraneous-dependencies:
     - error
