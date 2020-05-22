@@ -5,5 +5,6 @@ declare module "@rplan/redis-client" {
   export function disconnectRedisClient(): void
   export function shutdownRedisClient(): void
   export function resetShutdownForTests(): void
+  export interface RedisClient extends IORedis.Redis {}
 }
 
