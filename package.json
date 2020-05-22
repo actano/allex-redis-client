@@ -23,6 +23,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@types/ioredis": "^4.16.2",
     "bluebird": "^3.7.1",
     "ioredis": "^4.14.1"
   },
