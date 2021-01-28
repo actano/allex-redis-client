@@ -1,3 +1,5 @@
+import * as redisCommands from 'redis-commands'
+
 function createManualPromise() {
   const result = {}
 
@@ -9,7 +11,7 @@ function createManualPromise() {
   return result
 }
 
-export const createRedisClientMock = () => {
+export const createRedisClientMock = (mockedCommands = {}) => {
   let lastReadPromise = createManualPromise()
 
   const redisClientMock = {
@@ -27,6 +29,10 @@ export const createRedisClientMock = () => {
       await currentReadPromise
     },
 
+    async xpending() {
+      return []
+    },
+
     async xread() {
       return await lastReadPromise.promise
     },
@@ -35,6 +41,22 @@ export const createRedisClientMock = () => {
       lastReadPromise.resolve(undefined)
     },
   }
+
+  Object.entries(mockedCommands).forEach(([command, fn]) => {
+    redisClientMock[command] = fn
+  })
+
+  redisCommands.list.forEach((command) => {
+    const hasCommand = !!redisClientMock[command]
+
+    if (hasCommand) {
+      return
+    }
+
+    redisClientMock[command] = async () => {
+      throw new Error(`Mocked version of "${command}" is not implemented. You have to provide your own mock or implementation.`)
+    }
+  })
 
   return redisClientMock
 }
