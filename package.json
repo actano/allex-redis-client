@@ -29,14 +29,14 @@
     "redis-commands": "^1.6.0"
   },
   "peerDependencies": {
-    "@rplan/config": "^1.2.0",
-    "@rplan/logger": "^1.1.0"
+    "@rplan/config": "^2.0.0",
+    "@rplan/logger": "^1.3.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
-    "@rplan/config": "^1.2.0",
-    "@rplan/logger": "^1.1.0",
+    "@rplan/config": "^2.0.0",
+    "@rplan/logger": "^1.3.3",
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
