@@ -50,7 +50,10 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "build": "babel src -d lib",
-    "lint": "eslint ."
+    "build": "yarn build:src && yarn build:declarations",
+    "build:src": "babel --extensions .js,.ts -d lib src",
+    "build:declarations": "tsc --project tsconfig.types.json",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   }
 }
