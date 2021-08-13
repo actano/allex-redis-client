@@ -1,24 +1,33 @@
 import * as redisCommands from 'redis-commands'
 
-function createManualPromise() {
-  const result = {}
+function createManualPromise<T>(): {
+  promise: Promise<void>
+  resolve?: (T) => void
+  reject?: (err) => void
+} {
+  const result: {
+    promise?: Promise<void>
+    resolve?: (T) => void
+    reject?: (err) => void
+  } = {}
 
   result.promise = new Promise((resolve, reject) => {
     result.resolve = resolve
     result.reject = reject
   })
 
+  // @ts-ignore
   return result
 }
 
 export const createRedisClientMock = (mockedCommands = {}) => {
-  let lastReadPromise = createManualPromise()
+  let lastReadPromise = createManualPromise<any>()
 
   const redisClientMock = {
     async publish(...events) {
       const currentReadPromise = lastReadPromise.promise
 
-      lastReadPromise.resolve([
+      lastReadPromise.resolve!([
         [
           'mock-stream',
           [...events],
@@ -38,7 +47,7 @@ export const createRedisClientMock = (mockedCommands = {}) => {
     },
 
     disconnect() {
-      lastReadPromise.resolve(undefined)
+      lastReadPromise.resolve!(undefined)
     },
   }
 

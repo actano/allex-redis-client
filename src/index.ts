@@ -6,6 +6,7 @@ import config from '@rplan/config'
 
 import { createRedisClientMock } from './redis-client-mock'
 
+// @ts-ignore
 Redis.Promise = Bluebird
 let redisClient
 let isShutdown = false
