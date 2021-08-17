@@ -1,7 +1,5 @@
-import chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+import { expect } from 'chai'
 import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
 import { ZonedDateTime } from 'js-joda'
 import config from '@rplan/config'
 import { PoType } from '@rplan/allex-planning-object-types'
@@ -9,10 +7,6 @@ import { PoType } from '@rplan/allex-planning-object-types'
 import * as redisClient from '../src/redis-client'
 import { ChangelogEventTypes } from '../src/events/types'
 import { sendPoUpdateEvent } from '../src/events/update-event'
-
-chai.use(chaiAsPromised)
-chai.use(sinonChai)
-const { expect } = chai
 
 const streamKey = config.get('redis:output_stream_key')
 
