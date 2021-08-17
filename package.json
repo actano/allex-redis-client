@@ -65,6 +65,7 @@
     "build:src": "babel --extensions .js,.ts -d lib src",
     "build:declarations": "tsc --project tsconfig.types.json",
     "lint": "eslint --ext js,ts src test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "mocha test/**/*unit*"
   }
 }

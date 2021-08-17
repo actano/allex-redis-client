@@ -32,6 +32,32 @@ pipeline {
         }
       }
     }
+    stage('Typecheck') {
+      steps {
+        ansiColor('xterm') {
+          container('nodejs') {
+            script {
+              npm.withAuth() {
+                sh "CI=true yarn typecheck"
+              }
+            }
+          }
+        }
+      }
+    }
+    stage('Tests') {
+      steps {
+        ansiColor('xterm') {
+          container('nodejs') {
+            script {
+              npm.withAuth() {
+                sh "CI=true yarn test"
+              }
+            }
+          }
+        }
+      }
+    }
     stage('publish') {
       when {
         tag "*"
