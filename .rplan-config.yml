@@ -1,0 +1,5 @@
+
+LOG_LEVEL: warn
+logging:
+  root_logger_name: allex-redis-client
+  human_readable: false

@@ -1,0 +1,6 @@
+
+require:
+  - test/setup/require.js
+
+file:
+  - test/setup/env.js
