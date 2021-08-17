@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import * as redisCommands from 'redis-commands'
 
 function createManualPromise<T>(): {
   promise: Promise<void>
-  resolve?: (T) => void
+  resolve?: (a: T) => void
   reject?: (err) => void
-} {
+  } {
   const result: {
     promise?: Promise<void>
     resolve?: (T) => void

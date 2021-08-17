@@ -1,5 +1,5 @@
 import { PoType } from '@rplan/allex-planning-object-types'
-import * as assert from 'assert'
+import { strict as assert } from 'assert'
 import { ZonedDateTime, ZoneOffset } from 'js-joda'
 import config from '@rplan/config'
 import { ChangelogEntryData, ChangelogEntryDataUpstream, ChangelogEventTypes } from './types'
