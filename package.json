@@ -23,9 +23,12 @@
     "access": "public"
   },
   "dependencies": {
+    "@rplan/allex-planning-object-types": "^4.13.0",
+    "@rplan/allex-type-helpers": "^3.1.0",
     "@types/ioredis": "^4.26.7",
     "bluebird": "^3.7.1",
     "ioredis": "^4.19.4",
+    "js-joda": "^1.11.0",
     "redis-commands": "^1.6.0"
   },
   "peerDependencies": {

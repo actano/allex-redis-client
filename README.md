@@ -29,3 +29,6 @@ redis:
   maxRetries: 10
   password: password
 ~~~
+
+## Configuration 
+The config `redis:output_stream_key` must be set when using this library. It defines the stream name of the po update stream.

@@ -389,6 +389,18 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@rplan/allex-planning-object-types@^4.13.0":
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/@rplan/allex-planning-object-types/-/allex-planning-object-types-4.13.0.tgz#1b393614eacef20f2a8678f2545d9e3b60574295"
+  integrity sha512-i78/lw66LpofP9u+iy9RTXsaeqf9/a1PMWWQmnze1NeOHsAhbjOaab5855EPo1GJcs85NajJ4r5ev3hN/Qy1yw==
+  dependencies:
+    "@rplan/allex-type-helpers" "^3.1.0"
+
+"@rplan/allex-type-helpers@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@rplan/allex-type-helpers/-/allex-type-helpers-3.1.0.tgz#9dac06c65842b9f47568b4a2cb56bdb833244844"
+  integrity sha512-/+6nEF3/ikZWN/D3fYrED3i02bG7/w6ZJikatF9RN+FeTGikWzZPJBylfhuJjgrA1Ov4ZZiPlPHOdj9z3kK6kw==
+
 "@rplan/config@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@rplan/config/-/config-2.0.0.tgz#20cb7d655e80dfb7f06e8cfed87441dd23a7f3de"
@@ -2671,6 +2683,11 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+
+js-joda@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/js-joda/-/js-joda-1.11.0.tgz#e0e424b049cf7a9db3ed7729a6ca1f7d96b2486e"
+  integrity sha512-/HJpRhwP2fPyuSsCaZuoVJuaSIt8tUXykV4wOMRXrFk7RP9h9VWaFdS9YHKdMepxb/3TdXpL6IhfC9L0sqYVBw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
