@@ -2,7 +2,7 @@ library 'jenkins-k8s-pipeline-scripts@v2'
 
 pipeline {
   agent {
-    label "jenkins-nodejs"
+    label "jenkins-nodejs-12"
   }
   stages {
     stage('Build') {
