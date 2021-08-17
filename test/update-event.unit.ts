@@ -1,0 +1,128 @@
+import chai from 'chai'
+import chaiAsPromised from 'chai-as-promised'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
+import { ZonedDateTime } from 'js-joda'
+import config from '@rplan/config'
+import { PoType } from '@rplan/allex-planning-object-types'
+
+import * as redisClient from '../src/redis-client'
+import { ChangelogEventTypes } from '../src/events/types'
+import { sendPoUpdateEvent } from '../src/events/update-event'
+
+chai.use(chaiAsPromised)
+chai.use(sinonChai)
+const { expect } = chai
+
+const streamKey = config.get('redis:output_stream_key')
+
+describe('send messages to redis', () => {
+  const timestamp = '2016-03-18T12:38:23.561+01:00'
+  const entityId = '1234'
+  const projectId = '5678'
+  const principalId = '8765'
+  const eventType = ChangelogEventTypes.UPDATE
+  const payload = {
+    key1: 'value1',
+    key2: 'value2',
+  }
+  const userId = 'user1'
+  const taskId = 'task1'
+  const activityId = 'activity1'
+
+  let sandbox
+  let redisMock
+  beforeEach(() => {
+    sandbox = sinon.createSandbox()
+    redisMock = {
+      xadd: sandbox.stub(),
+    }
+    sandbox.stub(redisClient, 'getRedisClient').returns(redisMock)
+    sandbox.stub(ZonedDateTime, 'now').returns(ZonedDateTime.parse(timestamp))
+  })
+  afterEach(() => {
+    sandbox.restore()
+  })
+
+  it('should send a message to redis with the right parameters', async () => {
+    await sendPoUpdateEvent(
+      userId,
+      {
+        entityId,
+        entityType: PoType.Task,
+        eventType,
+        payload,
+        principalId,
+        projectId,
+        taskId,
+        activityId,
+      },
+    )
+    expect(redisMock.xadd).to.have.been.calledWithExactly(
+      streamKey, '*',
+      'meta:eventVersion', 'v0',
+      'meta:timestamp', timestamp,
+      'meta:entityId', entityId,
+      'meta:entityType', PoType.Task,
+      'meta:principalId', principalId,
+      'meta:projectId', projectId,
+      'meta:taskId', taskId,
+      'meta:activityId', activityId,
+      'meta:type', eventType,
+      'meta:userId', userId,
+      'meta:serviceOrigin', 'planningObjects',
+      'payload:key1', 'value1',
+      'payload:key2', 'value2',
+    )
+  })
+  it('should not send projectId, taskId and activityId if not present', async () => {
+    await sendPoUpdateEvent(
+      userId,
+      // @ts-ignore
+      {
+        entityId,
+        entityType: PoType.Project,
+        eventType,
+        payload,
+        principalId,
+      },
+    )
+    expect(redisMock.xadd).to.have.been.calledWithExactly(
+      streamKey, '*',
+      'meta:eventVersion', 'v0',
+      'meta:timestamp', timestamp,
+      'meta:entityId', entityId,
+      'meta:entityType', PoType.Project,
+      'meta:principalId', principalId,
+      'meta:type', eventType,
+      'meta:userId', userId,
+      'meta:serviceOrigin', 'planningObjects',
+      'payload:key1', 'value1',
+      'payload:key2', 'value2',
+    )
+  })
+  it('should not send payload if none was passed', async () => {
+    await sendPoUpdateEvent(
+      userId,
+      {
+        entityId,
+        entityType: PoType.Project,
+        eventType,
+        principalId,
+        // @ts-ignore
+        payload: undefined,
+      },
+    )
+    expect(redisMock.xadd).to.have.been.calledWithExactly(
+      streamKey, '*',
+      'meta:eventVersion', 'v0',
+      'meta:timestamp', timestamp,
+      'meta:entityId', entityId,
+      'meta:entityType', PoType.Project,
+      'meta:principalId', principalId,
+      'meta:type', eventType,
+      'meta:userId', userId,
+      'meta:serviceOrigin', 'planningObjects',
+    )
+  })
+})
