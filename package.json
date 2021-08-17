@@ -9,7 +9,7 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "engines": {
-    "node": ">=8"
+    "node": ">=12"
   },
   "author": "Actano GmbH (https://rplan.com/)",
   "license": "MIT",
