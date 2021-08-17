@@ -4,8 +4,16 @@ import { ZonedDateTime, ZoneOffset } from 'js-joda'
 import config from '@rplan/config'
 import { ChangelogEntryData, ChangelogEntryDataUpstream, ChangelogEventTypes } from './types'
 import { getRedisClient } from '../redis-client'
+import { NestedPayloadError } from './errors'
 
 const outputStreamKey = config.get('redis:output_stream_key')
+
+function assertFlatness(earth: object) {
+  for (const prop of Object.values(earth)) {
+    if (typeof prop === 'object') throw new NestedPayloadError()
+  }
+  // I knew it, it's flat!
+}
 
 /**
  * Redis only can store flat objects
@@ -22,6 +30,8 @@ function serializeEvent(
   taskId? : string,
   activityId? : string,
 ): string[] {
+  if (payload) assertFlatness(payload)
+
   const metaData = {
     eventVersion: 'v0',
     timestamp,

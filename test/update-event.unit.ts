@@ -7,6 +7,7 @@ import { PoType } from '@rplan/allex-planning-object-types'
 import * as redisClient from '../src/redis-client'
 import { ChangelogEventTypes } from '../src/events/types'
 import { sendPoUpdateEvent } from '../src/events/update-event'
+import { NestedPayloadError } from '../src/events/errors'
 
 const streamKey = config.get('redis:output_stream_key')
 
@@ -118,5 +119,25 @@ describe('send messages to redis', () => {
       'meta:userId', userId,
       'meta:serviceOrigin', 'planningObjects',
     )
+  })
+  it('should fail if non flat object is passed in', async () => {
+    const invalidPayload = {
+      thats: { just: { too: { deep: 1 } } },
+    }
+
+    const p = sendPoUpdateEvent(
+      userId,
+      {
+        entityId,
+        entityType: PoType.Task,
+        eventType,
+        principalId,
+        taskId,
+        projectId,
+        payload: invalidPayload,
+      },
+    )
+    await expect(p).to.eventually.be.rejectedWith(NestedPayloadError)
+    expect(redisMock.xadd).to.not.have.been.called
   })
 })
