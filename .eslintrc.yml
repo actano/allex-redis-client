@@ -29,3 +29,7 @@ overrides:
       - 'test/**/*.ts'
     env:
       mocha: true
+    rules:
+      'no-unused-expressions':
+        # Make eslint happy concerning chai assertions
+        - off
