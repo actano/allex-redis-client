@@ -13,11 +13,6 @@
   },
   "author": "Actano GmbH (https://rplan.com/)",
   "license": "MIT",
-  "files": [
-    "lib",
-    "src",
-    "index.d.ts"
-  ],
   "types": "index.d.ts",
   "publishConfig": {
     "access": "public"
