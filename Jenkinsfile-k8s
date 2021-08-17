@@ -72,5 +72,13 @@ pipeline {
         }
       }
     }
+    post {
+        failure {
+          sendNotification currentBuild.result, '#jenkins'
+        }
+        fixed {
+          sendNotification currentBuild.result, '#jenkins'
+        }
+    }
   }
 }
