@@ -18,6 +18,7 @@ function serializeEvent(
   timestamp: string,
   userId : string,
   event: ChangelogEntryDataUpstream,
+  serviceOrigin: string,
 ): string[] {
   /**
    * Redis only can store flat objects
@@ -35,7 +36,7 @@ function serializeEvent(
     activityId: event?.activityId,
     type: event.eventType,
     userId,
-    serviceOrigin: 'planningObjects',
+    serviceOrigin,
   }
 
   const changelogMessage = [
@@ -58,6 +59,7 @@ function serializeEvent(
 export async function sendPoUpdateEvent(
   userId: string,
   event: ChangelogEntryData,
+  serviceOrigin: string = 'planningObjects',
 ) : Promise<void> {
   const redisClient = getRedisClient()
   const timestamp = ZonedDateTime.now(ZoneOffset.UTC).toString()
@@ -65,6 +67,7 @@ export async function sendPoUpdateEvent(
     timestamp,
     userId,
     event,
+    serviceOrigin,
   )
 
   assert(redisParams.length > 0, 'redis message must have key')
