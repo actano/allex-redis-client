@@ -298,10 +298,11 @@ export type ChangelogEntryData = ConversionChangelogEntryData
 
 export interface ChangelogEntryDataUpstream {
   entityId: string,
-  entityType: PoType,
   eventType: ChangelogEventTypes,
   payload: object,
-  principalId: string,
+  domain?: EventDomain,
+  entityType?: PoType,
+  principalId?: string,
   projectId?: string,
   taskId?: string,
   activityId?: string,
