@@ -6,7 +6,8 @@
     "type": "git",
     "url": "https://github.com/actano/allex-redis-client.git"
   },
-  "main": "lib",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib"
   ],
@@ -15,7 +16,6 @@
   },
   "author": "Actano GmbH (https://rplan.com/)",
   "license": "MIT",
-  "types": "index.d.ts",
   "publishConfig": {
     "access": "public"
   },
