@@ -76,10 +76,11 @@ describe('send messages to redis', () => {
       // @ts-ignore
       {
         entityId,
-        entityType: PoType.Project,
         eventType,
-        payload,
         principalId,
+        projectId,
+        entityType: PoType.Project,
+        payload,
       },
     )
     expect(redisMock.xadd).to.have.been.calledWithExactly(
@@ -89,6 +90,7 @@ describe('send messages to redis', () => {
       'meta:entityId', entityId,
       'meta:entityType', PoType.Project,
       'meta:principalId', principalId,
+      'meta:projectId', projectId,
       'meta:type', eventType,
       'meta:userId', userId,
       'meta:serviceOrigin', 'planningObjects',
@@ -101,9 +103,11 @@ describe('send messages to redis', () => {
       userId,
       {
         entityId,
-        entityType: PoType.Project,
         eventType,
         principalId,
+        projectId,
+        // @ts-ignore
+        entityType: PoType.Project,
         // @ts-ignore
         payload: undefined,
       },
@@ -115,6 +119,7 @@ describe('send messages to redis', () => {
       'meta:entityId', entityId,
       'meta:entityType', PoType.Project,
       'meta:principalId', principalId,
+      'meta:projectId', projectId,
       'meta:type', eventType,
       'meta:userId', userId,
       'meta:serviceOrigin', 'planningObjects',
