@@ -6,12 +6,12 @@ import Bluebird from 'bluebird'
 
 // @ts-ignore
 Redis.Promise = Bluebird
-let redisClient
+let redisClient: Redis.Redis | null
 let isShutdown = false
 
 const logger = createLogger('redis-client')
 
-export const createNewRedisClient = () => {
+export function createNewRedisClient(): Redis.Redis {
   let client
 
   if (config.get('redis:sentinel:enabled')) {
@@ -53,7 +53,7 @@ export const createNewRedisClient = () => {
 /*
 * We want to re-use a single redis client in production to not reconnect all the time
 */
-export const getRedisClient = () => {
+export function getRedisClient(): Redis.Redis {
   if (isShutdown) {
     throw new Error('redis client has been shut down')
   }
@@ -72,11 +72,11 @@ export const disconnectRedisClient = () => {
   }
 }
 
-export const shutdownRedisClient = () => {
+export function shutdownRedisClient() {
   isShutdown = true
   disconnectRedisClient()
 }
 
-export const resetShutdownForTests = () => {
+export function resetShutdownForTests() {
   isShutdown = false
 }
