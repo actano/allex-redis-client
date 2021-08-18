@@ -6,8 +6,10 @@
     "type": "git",
     "url": "https://github.com/actano/allex-redis-client.git"
   },
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "main": "lib",
+  "files": [
+    "lib"
+  ],
   "engines": {
     "node": ">=12"
   },
