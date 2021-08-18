@@ -1,6 +1,16 @@
 import { PoType } from '@rplan/allex-planning-object-types'
 import { Dictionary } from '@rplan/allex-type-helpers'
 
+/**
+ * Event domain and service origin are related but semantically different
+ */
+export enum EventDomain {
+  // eslint-disable-next-line no-unused-vars
+  PlanningObject = 'PlanningObject',
+  // eslint-disable-next-line no-unused-vars
+  CustomField = 'CustomField',
+}
+
 export enum ChangelogEventTypes {
   // eslint-disable-next-line no-unused-vars
   CREATE = 'create',
@@ -253,6 +263,13 @@ export interface StandaloneTaskDeletedChangelogEntryData {
   taskId: string,
 }
 
+export interface UpdateCustomFieldEvent {
+  entityId: string
+  eventType: ChangelogEventTypes.UPDATE
+  eventDomain: EventDomain.CustomField
+  payload: object
+}
+
 export type ChangelogEntryData = ConversionChangelogEntryData
   | ProjectUpdatedChangelogEntryData
   | ProjectCreatedChangelogEntryData
@@ -277,6 +294,7 @@ export type ChangelogEntryData = ConversionChangelogEntryData
   | StandaloneTaskCreatedChangelogEntryData
   | StandaloneTaskUpdatedChangelogEntryData
   | StandaloneTaskDeletedChangelogEntryData
+  | UpdateCustomFieldEvent
 
 export interface ChangelogEntryDataUpstream {
   entityId: string,
