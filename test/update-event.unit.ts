@@ -5,7 +5,7 @@ import config from '@rplan/config'
 import { PoType } from '@rplan/allex-planning-object-types'
 
 import * as redisClient from '../src/redis-client'
-import { ChangelogEventTypes } from '../src/events/types'
+import { ChangelogEventTypes, EventDomain } from '../src/events/types'
 import { sendPoUpdateEvent } from '../src/events/update-event'
 import { NestedPayloadError } from '../src/events/errors'
 
@@ -39,7 +39,7 @@ describe('send messages to redis', () => {
     sandbox.restore()
   })
 
-  context('successfully send a message', () => {
+  context('successfully send po service messages', () => {
     it('should send a message to redis with the right parameters', async () => {
       await sendPoUpdateEvent(
         userId,
@@ -124,6 +124,32 @@ describe('send messages to redis', () => {
         'meta:type', eventType,
         'meta:userId', userId,
         'meta:serviceOrigin', 'planningObjects',
+      )
+    })
+  })
+  context('successfully send custom field service messages', () => {
+    it('should send', async () => {
+      await sendPoUpdateEvent(
+        userId,
+        {
+          entityId,
+          eventDomain: EventDomain.CustomField,
+          eventType,
+          payload,
+        },
+        'customFields',
+      )
+      expect(redisMock.xadd).to.have.been.calledWithExactly(
+        streamKey, '*',
+        'meta:eventVersion', 'v0',
+        'meta:timestamp', timestamp,
+        'meta:entityId', entityId,
+        'meta:type', eventType,
+        'meta:userId', userId,
+        'meta:serviceOrigin', 'customFields',
+        'meta:eventDomain', EventDomain.CustomField,
+        'payload:key1', 'value1',
+        'payload:key2', 'value2',
       )
     })
   })

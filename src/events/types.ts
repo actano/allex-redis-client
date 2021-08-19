@@ -306,6 +306,7 @@ export interface ChangelogEntryDataUpstream {
   projectId?: string,
   taskId?: string,
   activityId?: string,
+  eventDomain?: EventDomain,
 }
 
 export type PayloadConversionMapping = Dictionary<string>

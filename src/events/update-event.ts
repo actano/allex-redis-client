@@ -37,6 +37,7 @@ function serializeEvent(
     type: event.eventType,
     userId,
     serviceOrigin,
+    eventDomain: event?.eventDomain,
   }
 
   const changelogMessage = [
