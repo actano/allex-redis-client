@@ -58,6 +58,8 @@
     "build": "yarn build:src && yarn build:declarations",
     "build:src": "babel --extensions .js,.ts -d lib src",
     "build:declarations": "tsc --project tsconfig.types.json",
+    "clean": "rm -r lib",
+    "clean:build": "yarn clean && yarn build",
     "lint": "eslint --ext js,ts src test",
     "typecheck": "tsc --noEmit",
     "test": "mocha test/**/*unit*"
