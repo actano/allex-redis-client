@@ -1,6 +1,13 @@
 /* eslint-disable no-unused-vars */
 import * as redisCommands from 'redis-commands'
 
+export interface RedisClientMock {
+  publish: (...events: any[]) => Promise<void>
+  xpending(): Promise<never[]>
+  xread(): Promise<void>
+  disconnect(): void
+}
+
 function createManualPromise<T>(): {
   promise: Promise<void>
   resolve?: (a: T) => void
@@ -24,7 +31,7 @@ function createManualPromise<T>(): {
 export const createRedisClientMock = (mockedCommands = {}) => {
   let lastReadPromise = createManualPromise<any>()
 
-  const redisClientMock = {
+  const redisClientMock: RedisClientMock = {
     async publish(...events) {
       const currentReadPromise = lastReadPromise.promise
 

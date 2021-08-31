@@ -3,10 +3,11 @@ import Redis from 'ioredis'
 import createLogger from '@rplan/logger'
 import config from '@rplan/config'
 import Bluebird from 'bluebird'
+import { createRedisClientMock, RedisClientMock } from './redis-client-mock'
 
 // @ts-ignore
 Redis.Promise = Bluebird
-let redisClient: Redis.Redis | null
+let redisClient: Redis.Redis | RedisClientMock | null = null
 let isShutdown = false
 
 const logger = createLogger('redis-client')
@@ -53,14 +54,24 @@ export function createNewRedisClient(): Redis.Redis {
 /*
 * We want to re-use a single redis client in production to not reconnect all the time
 */
-export function getRedisClient(): Redis.Redis {
+export function getRedisClient() {
   if (isShutdown) {
     throw new Error('redis client has been shut down')
   }
 
   if (!redisClient) redisClient = createNewRedisClient()
 
-  return redisClient
+  return redisClient as Redis.Redis
+}
+
+export function getRedisClientMock() {
+  if (isShutdown) {
+    throw new Error('redis client has been shut down')
+  }
+
+  if (!redisClient) redisClient = createRedisClientMock()
+
+  return redisClient as RedisClientMock
 }
 
 
